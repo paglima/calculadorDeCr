@@ -15,15 +15,16 @@ public class CrUtils {
 		int cont = 0, cont2 = 0;
 		
 		while (scan.hasNextLine()) {
-			String nome = scan.next();
-			Double nota = scan.nextDouble();
-			if(foiAprovado(nota) && !ehEstagioOuProjeto(nome)){
+			String nome		  = scan.next();
+			Double nota 	  = scan.nextDouble();
+			boolean ehEstagio = !ehEstagioOuProjeto(nome);
+			if(foiAprovado(nota)){
 				System.out.format("%13s%14s%14s%14s\n", nome, nota.toString(), scan.nextInt(), scan.next());
-				cont++;
+				cont += ehEstagio? 1: 0;
 			}else{
 				System.out.format("%13s%14s%14s%14s\n", nome, nota.toString(), scan.nextInt(), "[REP] "+scan.next());
 			}
-			cont2 += !ehEstagioOuProjeto(nome)? 1: 0;
+			cont2 += ehEstagio? 1: 0;
 		}
 		
 		System.out.format("\n%14s\t\t%s","AP:" , cont+"/"+cont2);
