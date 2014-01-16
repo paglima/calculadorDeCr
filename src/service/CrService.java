@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import model.CR;
 import model.Disciplina;
@@ -26,7 +27,7 @@ public class CrService {
 		Double somaProdutoNotaECH = 0.0;
 		Double chConcluida = 0.0;
 		Double chTotal = 0.0;
-		for (Disciplina d : disciplinaService.findAll()) {
+		for (Disciplina d : findAll()) {
 			somaProdutoNotaECH += (d.getNota()*d.getCargaHoraria());
 			chTotal   		   += d.getCargaHoraria();
 			chConcluida		   += d.getNota() >=5 ? d.getCargaHoraria() : 0; 	
@@ -40,5 +41,9 @@ public class CrService {
 	
 	public BigDecimal calculaPorcentagem() throws FileNotFoundException{
 		return BigDecimal.valueOf(cr.getChConcluida().doubleValue()/3524.0).multiply(BigDecimal.valueOf(100));
+	}
+	
+	public List<Disciplina> findAll(){
+		return disciplinaService.findAll();
 	}
 }
