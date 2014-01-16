@@ -11,10 +11,11 @@ public class CrController {
 	
 	public static void main(String[] args) {
 		try{
-			String nome  = Arrays.asList(new String[]{"total.txt","crPaula.txt","parcial.txt"}).get(0);
-			CrService crService =  new CrService(new File(nome));
+			String    nome  	= Arrays.asList(new String[]{"total.txt","crPaula.txt","parcial.txt"}).get(0);
+			File      file		= new File(nome);
+			CrService crService =  new CrService(file);
 			
-			CrUtils.printConteudo(nome);
+			CrUtils.printConteudo(crService);
 			
 			System.out.format("\n%15s\t\t%s","CR: ",crService.calculaCr());
 			System.out.format("\n%15s\t\t%.0f/3524","CHC/CHT: ",crService.getChCursada());
