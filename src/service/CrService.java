@@ -28,9 +28,9 @@ public class CrService {
 		Double chConcluida = 0.0;
 		Double chTotal = 0.0;
 		for (Disciplina d : findAll()) {
-			somaProdutoNotaECH += (d.getNota()*d.getCargaHoraria());
+			somaProdutoNotaECH += (d.getNota() * d.getCargaHoraria());
 			chTotal   		   += d.getCargaHoraria();
-			chConcluida		   += d.getNota() >=5 ? d.getCargaHoraria() : 0; 	
+			chConcluida		   += d.getSituacao().equals("AP") ? d.getCargaHoraria() : 0; 	
 		}
 		return new CR(BigDecimal.valueOf(somaProdutoNotaECH), BigDecimal.valueOf(chConcluida), BigDecimal.valueOf(chTotal));
 	}
@@ -46,4 +46,5 @@ public class CrService {
 	public List<Disciplina> findAll(){
 		return disciplinaService.findAll();
 	}
+	
 }

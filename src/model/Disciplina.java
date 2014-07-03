@@ -6,16 +6,18 @@ public class Disciplina {
 	private Integer cargaHoraria;
 	private String nome;
 	private String periodo;
+	private String situacao;
 	
 	public Disciplina(){
 		
 	}
 	
-	public Disciplina(String nome , Double nota, Integer cargaHoraria, String periodo) {
+	public Disciplina(String nome , Double nota, Integer cargaHoraria, String periodo,String situacao) {
 		this.nome = nome;
 		this.nota = nota;
 		this.cargaHoraria = cargaHoraria;
 		this.periodo = periodo;
+		this.situacao = situacao;
 	}
 	
 	public Double getNota() {
@@ -56,6 +58,14 @@ public class Disciplina {
 	
 	public String toString(){
 		return getNome()+" "+getNota() +" "+ getCargaHoraria()+" ";
+	}
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
 	}
 	
 }

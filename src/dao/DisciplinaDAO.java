@@ -12,6 +12,8 @@ public class DisciplinaDAO {
 	
 	private Scanner scanner;
 	private File file;
+	private Integer aprovadas 	= 0;
+	private Integer reprovadas 	= 0;
 
 	public DisciplinaDAO(File file){
 		try {
@@ -21,14 +23,27 @@ public class DisciplinaDAO {
 		}
 	}
 
-
 	public List<Disciplina> findAll(){
 		List<Disciplina> disciplinas = null;
+		resetSituacao();
+		
 		try {
-			abreConexao(file);
+			abreConexao();
 			disciplinas = new ArrayList<Disciplina>();
 			while(scanner.hasNextLine()){
-				disciplinas.add(new Disciplina(scanner.next(), scanner.nextDouble(),scanner.nextInt(),scanner.next()));          
+				String nome 	= scanner.next();
+				Double nota 	= scanner.nextDouble();
+				Integer ch 		= scanner.nextInt();
+				String periodo 	= scanner.next();
+				String situacao = scanner.next();
+				
+				if(nome.charAt(0) == '#'){
+					continue;
+				}
+				
+				countBySituacao(situacao);
+				
+				disciplinas.add(new Disciplina(nome,nota,ch,periodo,situacao));          
 			}
 			
 		} catch (Exception e) {
@@ -37,12 +52,75 @@ public class DisciplinaDAO {
 		fechaConexao();
 		return disciplinas;
 	}
-	private void abreConexao(File file) throws FileNotFoundException {
+	
+	public List<Disciplina> findByPeriodo(String periodo) {
+		List<Disciplina> disciplinas = null;
+		resetSituacao();
+		
+		try {
+			abreConexao();
+			disciplinas = new ArrayList<Disciplina>();
+			while(scanner.hasNextLine()){
+				String nome 	= scanner.next();
+				Double nota 	= scanner.nextDouble();
+				Integer ch 		= scanner.nextInt();
+				String p 		= scanner.next();
+				String situacao = scanner.next();
+				
+				if(nome.charAt(0) == '#'){
+					continue;
+				}
+				
+				if(p.equals(periodo)){
+					countBySituacao(situacao);
+					disciplinas.add(new Disciplina(nome,nota,ch,periodo,situacao));          
+				}
+			}
+			
+		} catch (Exception e) {
+			
+		}
+		fechaConexao();
+		return disciplinas;
+	} 
+
+	private void countBySituacao(String situacao) {
+		if(situacao.equals("AP")){
+			aprovadas++;
+		}
+		
+		if(situacao.equals("REP")){
+			reprovadas++;
+		}
+	}
+	
+	private void resetSituacao(){
+		aprovadas 	= 0;
+		reprovadas	= 0;
+	}
+	
+	private void abreConexao() throws FileNotFoundException {
 		scanner = new Scanner(file);
 	}
 
 	private void fechaConexao() {
 		scanner.close();
-	} 
+	}
+
+	public Integer getAprovadas() {
+		return aprovadas;
+	}
+
+	public void setAprovadas(Integer aprovadas) {
+		this.aprovadas = aprovadas;
+	}
+
+	public Integer getReprovadas() {
+		return reprovadas;
+	}
+
+	public void setReprovadas(Integer reprovadas) {
+		this.reprovadas = reprovadas;
+	}
 	
 }
